@@ -11,7 +11,11 @@ import (
 	"strings"
 )
 
-var ApiKey, Environment string
+var (
+	ApiKey, Environment string
+
+	Client = http.DefaultClient
+)
 
 type Notifier struct {
 	Name     string `json:"name"`
@@ -177,7 +181,7 @@ func (r *Report) Send() (err error) {
 	req.Header.Add("Accept", "application/json")
 	req.Header.Add("X-API-Key", ApiKey)
 
-	if resp, err = http.DefaultClient.Do(req); err != nil {
+	if resp, err = Client.Do(req); err != nil {
 		return
 	}
 
